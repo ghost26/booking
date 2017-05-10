@@ -12,7 +12,7 @@
             }
             mysqli_stmt_close($statement);
             $citiesCount = count($cities);
-            return $error || !$citiesCount ? false :  ['count' => count($cities), 'countryId' => $id,'cities' => $cities];
+            return $error || !$citiesCount ? false :  ['count' => $citiesCount, 'countryId' => $id,'cities' => $cities];
         }
         return false;
     }

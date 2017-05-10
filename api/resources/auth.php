@@ -18,6 +18,9 @@
     function authorizeUser($connection, $email, $password) {
         require_once 'database/auth.php';
         require_once 'database/users.php';
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return ['error' => 'Invalid e-mail', 'status' => 400];
+        }
         $user = findUser($connection, $email);
         $salt = $user['salt'];
         $passwordHash = $user['password'];

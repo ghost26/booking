@@ -1,4 +1,11 @@
 <?php
+date_default_timezone_set('Europe/Moscow');
+//$date = getdate(time());
+//print_r($date);
+//echo '<br>';
+//print_r(getdate(strtotime($date['mon'].'/'.$date['mday'].'/'.$date['year'].' 12:00')));
+
+
 require_once 'database/connect.php';
 $connection = createConnection();
 //header("HTTP/1.0 404 Not Found");
@@ -11,6 +18,7 @@ switch ($resource) {
     case 'countries':
     case 'cities':
     case 'hotels':
+    case 'bookings':
     case 'rooms':
     case 'auth':
         if (file_exists("resources/{$resource}.php")) {
@@ -28,13 +36,15 @@ $authRequired = [
         'cities' => false,
         'rooms' => false,
         'hotels' => false,
-        'countries' => false
+        'countries' => false,
+        'bookings' => true,
     ],
     'POST' => [
         'users' => false,
         'rooms' => true,
         'auth' => false,
-        'hotels' => true
+        'hotels' => true,
+        'bookings' => true,
     ]
 ];
 

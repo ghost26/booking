@@ -1,6 +1,5 @@
 <?php
 
-
     function requestHandler($connection, $requestType, $params) {
         switch ($requestType) {
             case 'GET':
