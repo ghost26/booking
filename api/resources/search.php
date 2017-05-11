@@ -46,7 +46,6 @@
 
     function searchOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $capacity, $page = 1) {
         require_once 'database/search.php';
-        echo 123;
         if (!filter_var($hotel_id, FILTER_VALIDATE_INT)) {
             return ['error' => 'Invalid city id', 'status' => 400];
         }
