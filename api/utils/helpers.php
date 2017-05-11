@@ -17,4 +17,9 @@
         }
         return $request;
     }
+
+    function normalizeDate($tmsp, $hours = '12:00') {
+        $date = getdate($tmsp);
+        return strtotime($date['mon'].'/'.$date['mday'].'/'.$date['year'].' '.$hours);
+    }
 ?>

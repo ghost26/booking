@@ -4,7 +4,7 @@
 
             // prohibit insert booking for room with room_id :
             $statement_1 = mysqli_stmt_init($connection);
-            if (mysqli_stmt_prepare($statement_1, "SELECT * FROM rooms WHERE id = ?")) {
+            if (mysqli_stmt_prepare($statement_1, "SELECT * FROM rooms WHERE id = ? FOR UPDATE")) {
                 mysqli_stmt_bind_param($statement_1, "i", $room_id);
                 mysqli_stmt_execute($statement_1);
                 $error = mysqli_stmt_error($statement_1);

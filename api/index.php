@@ -1,14 +1,8 @@
 <?php
 date_default_timezone_set('Europe/Moscow');
-//$date = getdate(time());
-//print_r($date);
-//echo '<br>';
-//print_r(getdate(strtotime($date['mon'].'/'.$date['mday'].'/'.$date['year'].' 12:00')));
-
 
 require_once 'database/connect.php';
 $connection = createConnection();
-//header("HTTP/1.0 404 Not Found");
 
 //    header("Content-type: application/json; charset=utf-8");
 $splitURI = explode('/', parse_url($_SERVER['REQUEST_URI'])['path']);
@@ -21,6 +15,7 @@ switch ($resource) {
     case 'bookings':
     case 'rooms':
     case 'auth':
+    case 'search':
         if (file_exists("resources/{$resource}.php")) {
             require_once "resources/{$resource}.php";
             break;
@@ -38,6 +33,7 @@ $authRequired = [
         'hotels' => false,
         'countries' => false,
         'bookings' => true,
+        'search' => false
     ],
     'POST' => [
         'users' => false,
@@ -45,6 +41,7 @@ $authRequired = [
         'auth' => false,
         'hotels' => true,
         'bookings' => true,
+        'search' => false
     ]
 ];
 

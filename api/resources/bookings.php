@@ -30,8 +30,10 @@
             return ['error' => 'Hotel not found', 'status' => 404];
         } else if ($hotel['owner_id'] != $verifiedUserId) {
             return ['error' => 'Access denied', 'status' => 403];
-        } else if (!filter_var($id, FILTER_VALIDATE_INT) && !filter_var($page, FILTER_VALIDATE_INT)) {
+        } else if (!filter_var($id, FILTER_VALIDATE_INT) || !filter_var($page, FILTER_VALIDATE_INT)) {
             return ['error' => 'Invalid params', 'status' => 400];
+        } else if ($page < 0) {
+            return ['error' => 'Invalid page', 'status' => 400];
         }
         $bookings = findBookingsByHotelId($connection, $id, $page);
         if ($bookings) {
@@ -63,7 +65,7 @@
 
         $user = findUserById($connection, $verifiedUserId);
         $room = findRoomById($connection, $room_id);
-        if (!filter_var($start_date, FILTER_VALIDATE_INT) && !filter_var($end_date, FILTER_VALIDATE_INT) ) {
+        if (!filter_var($start_date, FILTER_VALIDATE_INT) || !filter_var($end_date, FILTER_VALIDATE_INT) ) {
             return ['error' => 'Invalid dates', 'status' => 400];
         } else {
             $start_date = normalizeDate($start_date);
@@ -83,8 +85,4 @@
         }
     }
 
-    function normalizeDate($tmsp, $hours = '12:00') {
-        $date = getdate($tmsp);
-        return strtotime($date['mon'].'/'.$date['mday'].'/'.$date['year'].' '.$hours);
-    }
 ?>
