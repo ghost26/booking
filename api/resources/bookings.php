@@ -12,9 +12,9 @@
                 break;
             case 'GET':
                 if (isset($params['hotel_id'])) {
-                    return getBookingByHotelId($connection, $params['verifiedUserId'], $params['hotel_id'], isset($params['page']) ? $params['page'] : 1);
+                    return getBookingsByHotelId($connection, $params['verifiedUserId'], $params['hotel_id'], isset($params['page']) ? $params['page'] : 1);
                 } else {
-                    return getBookingByUserId($connection, $params['verifiedUserId'], isset($params['page']) ? $params['page'] : 1);
+                    return getBookingsByUserId($connection, $params['verifiedUserId'], isset($params['page']) ? $params['page'] : 1);
                 }
             default:
                 return ['error' => 'Bad request', 'status' => 400];
@@ -22,7 +22,7 @@
         return ['error' => 'Missed params', 'params' => $missingArgs, 'status' => 400];
     }
 
-    function getBookingByHotelId($connection, $verifiedUserId, $id, $page = 1) {
+    function getBookingsByHotelId($connection, $verifiedUserId, $id, $page = 1) {
         require_once 'database/bookings.php';
         require_once 'database/hotels.php';
         $hotel = findHotelById($connection, $verifiedUserId);
@@ -43,7 +43,7 @@
         }
     }
 
-    function getBookingByUserId($connection, $verifiedUserId, $page = 1) {
+    function getBookingsByUserId($connection, $verifiedUserId, $page = 1) {
         require_once 'database/bookings.php';
         require_once 'database/users.php';
 

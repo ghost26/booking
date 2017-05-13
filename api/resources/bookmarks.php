@@ -11,7 +11,7 @@
                 }
                 break;
             case 'GET':
-                return getBookbarksByUserId($connection, $params['verifiedUserId']);
+                return getBookmarksByUserId($connection, $params['verifiedUserId'], isset($params['page']) ? $params['page'] : 1);
             default:
                 return ['error' => 'Bad request', 'status' => 400];
         }
@@ -26,7 +26,7 @@
         $user = findUserById($connection, $id);
         $hotel = findHotelById($connection, $hotel_id);
         if (!$user || ($user && $user['type'] != 'customer')) {
-            return ['error' => 'You are a customer', 'status' => 403];
+            return ['error' => 'You are not a customer', 'status' => 403];
         }
         if (!$hotel) {
             return ['error' => 'Hotel not found', 'status' => 404];
@@ -48,5 +48,24 @@
             }
         } else {
             return ['error' => 'Start date must be earlier than end date of trip', 'status' => 400];
+        }
+    }
+
+    function getBookmarksByUserId($connection, $id, $page = 1) {
+        require_once 'database/users.php';
+        require_once 'database/hotels.php';
+        require_once 'database/bookmarks.php';
+        $user = findUserById($connection, $id);
+        if (!filter_var($page, FILTER_VALIDATE_INT)) {
+            return ['error' => 'Invalid params', 'status' => 400];
+        }
+        if (!$user || ($user && $user['type'] != 'customer')) {
+            return ['error' => 'You are not a customer', 'status' => 403];
+        }
+        $bookmarks = findBookmarksByUserId($connection, $id, $page);
+        if ($bookmarks) {
+            return $bookmarks;
+        } else {
+            return ['error' => 'Bookings not found', 'status' => 404];
         }
     }
