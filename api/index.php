@@ -14,6 +14,7 @@ switch ($resource) {
     case 'hotels':
     case 'bookings':
     case 'rooms':
+    case 'bookmarks':
     case 'auth':
     case 'search':
         if (file_exists("resources/{$resource}.php")) {
@@ -33,6 +34,7 @@ $authRequired = [
         'hotels' => false,
         'countries' => false,
         'bookings' => true,
+        'bookmarks' => true,
         'search' => false
     ],
     'POST' => [
@@ -41,6 +43,7 @@ $authRequired = [
         'auth' => false,
         'hotels' => true,
         'bookings' => true,
+        'bookmarks' => true,
         'search' => false
     ]
 ];

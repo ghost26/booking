@@ -12,7 +12,7 @@
             }
             mysqli_stmt_close($statement);
             $citiesCount = count($cities);
-            return $error || !$citiesCount ? false :  ['count' => $citiesCount, 'countryId' => $id,'cities' => $cities];
+            return $error || !$citiesCount ? false :  ['count' => $citiesCount, 'country_id' => $id,'cities' => $cities];
         }
         return false;
     }
@@ -28,7 +28,7 @@
             mysqli_stmt_close($statement);
 
             if ($cityId == $id) {
-                return $error ? false :  ['cityId' => $cityId, 'name' => $name, 'countryId' => $countryId];
+                return $error ? false :  ['city_id' => $cityId, 'name' => $name, 'country_id' => $countryId];
             }
         }
         return false;

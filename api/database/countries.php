@@ -20,7 +20,7 @@
             mysqli_stmt_close($statement);
 
             if ($countryId == $id) {
-                return $error ? false :  ['countryId' => $countryId, 'name' => $name];
+                return $error ? false :  ['country_id' => $countryId, 'name' => $name];
             }
         }
         return false;
