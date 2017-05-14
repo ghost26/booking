@@ -8,7 +8,7 @@
             $error = mysqli_stmt_error($statement);
             $cities = [];
             while (mysqli_stmt_fetch($statement)) {
-                $cities[] = ['cityId' => $cityId, 'name' => $name];
+                $cities[] = ['city_id' => $cityId, 'name' => $name];
             }
             mysqli_stmt_close($statement);
             $citiesCount = count($cities);
