@@ -1,5 +1,6 @@
 <?php
-function addBookmark($connection, $user_id, $hotel_id, $start_date, $end_date) {
+function addBookmark($connection, $user_id, $hotel_id, $start_date, $end_date)
+{
     $statement = mysqli_stmt_init($connection);
     if (mysqli_stmt_prepare($statement, "INSERT INTO bookmarks(user_id, hotel_id, start_date, end_date) VALUES(?, ?, ?, ?)")) {
         mysqli_stmt_bind_param($statement, "iiii", $user_id, $hotel_id, $start_date, $end_date);
@@ -14,7 +15,8 @@ function addBookmark($connection, $user_id, $hotel_id, $start_date, $end_date) {
     return false;
 }
 
-function findBookmarksByUserId($connection, $id, $page = 1) {
+function findBookmarksByUserId($connection, $id, $page = 1)
+{
     $statement = mysqli_stmt_init($connection);
     $items_per_page = 20;
     $offset = ($page - 1) * $items_per_page;
@@ -36,7 +38,7 @@ function findBookmarksByUserId($connection, $id, $page = 1) {
                 'hotel_description' => $hotel_description, 'start_date' => $start_date, 'end_date' => $end_date];
         }
         mysqli_stmt_close($statement);
-        return $error  ? false :  ['count' => count($bookings), 'bookings' => $bookings];
+        return $error ? false : ['count' => count($bookings), 'bookings' => $bookings];
     }
     return false;
 }

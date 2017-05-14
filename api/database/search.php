@@ -1,5 +1,6 @@
 <?php
-function findOffersByCityId($connection, $city_id, $start_date, $end_date, $capacity, $page = 1) {
+function findOffersByCityId($connection, $city_id, $start_date, $end_date, $capacity, $page = 1)
+{
     //prevent sql injection
     $city_id = sprintf("%d", $city_id);
     $start_date = sprintf("%d", $start_date);
@@ -35,7 +36,8 @@ function findOffersByCityId($connection, $city_id, $start_date, $end_date, $capa
     return false;
 }
 
-function findOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $capacity, $page = 1) {
+function findOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $capacity, $page = 1)
+{
     //prevent sql injection
     $hotel_id = sprintf("%d", $hotel_id);
     $start_date = sprintf("%d", $start_date);

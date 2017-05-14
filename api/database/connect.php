@@ -2,7 +2,8 @@
 
 $connection = null;
 
-function createConnection () {
+function createConnection()
+{
     require_once 'config.php';
     global $connection;
     $connection = @mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -14,7 +15,9 @@ function createConnection () {
     return $connection;
 }
 
-function closeConnection($connection) {
+function closeConnection($connection)
+{
     mysqli_close($connection);
 }
+
 ?>
