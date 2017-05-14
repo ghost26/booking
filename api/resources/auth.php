@@ -32,7 +32,6 @@ function authorizeUser($connection, $email, $password)
     }
 
     $authorization = findAuthorizationByUserId($connection, $user['id']);
-    print_r($authorization);
     if ($authorization) {
         deleteAuthorization($connection, $authorization['id']);
     }
