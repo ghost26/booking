@@ -9,7 +9,6 @@ function addBookmark($connection, $user_id, $hotel_id, $start_date, $end_date)
         $id = mysqli_stmt_insert_id($statement);
 
         mysqli_stmt_close($statement);
-        echo $error;
         return $error ? false : $id;
     }
     return false;
