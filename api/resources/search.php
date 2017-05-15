@@ -24,6 +24,7 @@ function requestHandler($connection, $requestType, $params)
 function searchOffersByCityId($connection, $city_id, $start_date, $end_date, $capacity, $page = 1)
 {
     require_once 'database/search.php';
+
     if (!filter_var($city_id, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid city id', 'status' => 400];
     }
@@ -33,9 +34,13 @@ function searchOffersByCityId($connection, $city_id, $start_date, $end_date, $ca
         $start_date = normalizeDate($start_date);
         $end_date = normalizeDate($end_date);
     }
+
     $curDay = normalizeDate(time(), '00:00');
+
     if ($curDay < $start_date && $start_date < $end_date && $end_date - $start_date >= 86400) {
+
         $offers = findOffersByCityId($connection, $city_id, $start_date, $end_date, $capacity, $page);
+
         if ($offers) {
             return $offers;
         } else {
@@ -49,6 +54,7 @@ function searchOffersByCityId($connection, $city_id, $start_date, $end_date, $ca
 function searchOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $capacity, $page = 1)
 {
     require_once 'database/search.php';
+
     if (!filter_var($hotel_id, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid city id', 'status' => 400];
     }
@@ -58,9 +64,13 @@ function searchOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $
         $start_date = normalizeDate($start_date);
         $end_date = normalizeDate($end_date);
     }
+
     $curDay = normalizeDate(time(), '00:00');
+
     if ($curDay < $start_date && $start_date < $end_date && $end_date - $start_date >= 86400) {
+
         $offers = findOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $capacity, $page);
+
         if ($offers) {
             return $offers;
         } else {

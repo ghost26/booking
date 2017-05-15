@@ -21,9 +21,8 @@ function requestHandler($connection, $requestType, $params)
         default:
             return ['error' => 'Bad request', 'status' => 400];
     }
-    return ['error' => 'Missed params', 'params' => $missingArgs, 'status' => 400];
+    return ['error' => 'Missed params', 'params' => isset($missingArgs) ? $missingArgs : 'id', 'status' => 400];
 }
-
 
 function createNewHotel($connection, $name, $verifiedUserId, $description, $country_id, $city_id, $address, $stars)
 {
@@ -33,12 +32,15 @@ function createNewHotel($connection, $name, $verifiedUserId, $description, $coun
 
     $user = findUserById($connection, $verifiedUserId);
     $city = findCityById($connection, $city_id);
+
     // More validations ?
     if ($user && $user['type'] == 'owner' && $city && $city['country_id'] == $country_id
         && filter_var($stars, FILTER_VALIDATE_INT) && $stars > 0 && $stars < 6
     ) {
+
         $hotelId = addHotel($connection, htmlspecialchars($name), $verifiedUserId, htmlspecialchars($description),
             $country_id, $city_id, htmlspecialchars($address), $stars);
+
         if ($hotelId) {
             return ['name' => $name, 'owner_id' => $verifiedUserId, 'description' => $description,
                 'country_id' => $country_id, 'city_id' => $city_id, 'address' => $address, 'stars' => $stars];
@@ -53,10 +55,13 @@ function createNewHotel($connection, $name, $verifiedUserId, $description, $coun
 function getHotelInfo($connection, $id)
 {
     require_once 'database/hotels.php';
+
     if (!filter_var($id, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid id', 'status' => 400];
     }
+
     $hotel = findHotelById($connection, $id);
+
     if ($hotel) {
         return $hotel;
     } else {
@@ -68,9 +73,13 @@ function getHotelsByOwnerId($connection, $id, $page = 1)
 {
     require_once 'database/hotels.php';
     require_once 'database/users.php';
+
     $user = findUserById($connection, $id);
+
     if ($user && $user['type'] == 'owner') {
+
         $hotels = findHotelsByOwnerId($connection, $id, $page);
+
         if ($hotels) {
             return $hotels;
         } else {
@@ -81,3 +90,4 @@ function getHotelsByOwnerId($connection, $id, $page = 1)
     }
 }
 
+?>

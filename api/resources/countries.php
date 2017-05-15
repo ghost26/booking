@@ -12,6 +12,7 @@ function requestHandler($connection, $requestType, $params)
 function getCountriesList($connection)
 {
     require_once 'database/countries.php';
+
     $countries = getCountries($connection);
     return $countries ? $countries : ['error' => 'Countries not found', 'status' => 404];
 }

@@ -19,9 +19,11 @@ function requestHandler($connection, $requestType, $params)
 function getCitiesListByCountryId($connection, $id)
 {
     require_once 'database/cities.php';
+
     if (!filter_var($id, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid id', 'status' => 400];
     }
+
     $cities = getCitiesByCountryId($connection, $id);
     return $cities ? $cities : ['error' => 'Cities for this id not found', 'status' => 404];
 }
@@ -29,12 +31,13 @@ function getCitiesListByCountryId($connection, $id)
 function getCityInfoByID($connection, $id)
 {
     require_once 'database/cities.php';
+
     if (!filter_var($id, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid id', 'status' => 400];
     }
+
     $cities = findCityById($connection, $id);
     return $cities ? $cities : ['error' => 'City not found', 'status' => 404];
 }
-
 
 ?>

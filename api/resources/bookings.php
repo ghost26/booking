@@ -27,7 +27,9 @@ function getBookingsByHotelId($connection, $verifiedUserId, $id, $page = 1)
 {
     require_once 'database/bookings.php';
     require_once 'database/hotels.php';
+
     $hotel = findHotelById($connection, $id);
+
     if (!$hotel) {
         return ['error' => 'Hotel not found', 'status' => 404];
     } else if ($hotel['owner_id'] != $verifiedUserId) {
@@ -37,7 +39,9 @@ function getBookingsByHotelId($connection, $verifiedUserId, $id, $page = 1)
     } else if ($page < 0) {
         return ['error' => 'Invalid page', 'status' => 400];
     }
+
     $bookings = findBookingsByHotelId($connection, $id, $page);
+
     if ($bookings) {
         return $bookings;
     } else {
@@ -53,7 +57,9 @@ function getBookingsByUserId($connection, $verifiedUserId, $page = 1)
     if (!filter_var($page, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid params', 'status' => 400];
     }
+
     $bookings = findBookingsByUserId($connection, $verifiedUserId, $page);
+
     if ($bookings) {
         return $bookings;
     } else {
@@ -69,15 +75,20 @@ function createBooking($connection, $verifiedUserId, $start_date, $end_date, $ro
 
     $user = findUserById($connection, $verifiedUserId);
     $room = findRoomById($connection, $room_id);
+
     if (!filter_var($start_date, FILTER_VALIDATE_INT) || !filter_var($end_date, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid dates', 'status' => 400];
     } else {
         $start_date = normalizeDate($start_date);
         $end_date = normalizeDate($end_date);
     }
+
     $curDay = normalizeDate(time(), '00:00');
+
     if ($user && $room && $user['type'] == 'customer' && $curDay < $start_date && $end_date > $start_date && $end_date - $start_date >= 86400) {
+
         $roomId = addBooking($connection, $verifiedUserId, $start_date, $end_date, $room['hotel_id'], $room_id, time());
+
         if ($roomId) {
             return ['id' => $roomId, 'user_id' => $verifiedUserId, 'start_date' => $start_date,
                 'end_date' => $end_date, 'hotel_id' => $room['hotel_id']];

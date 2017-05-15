@@ -31,11 +31,14 @@ function createNewRoom($connection, $hotel_id, $verifiedUserId, $title, $descrip
     require_once 'database/rooms.php';
 
     $hotel = findHotelById($connection, $hotel_id);
+
     if ($hotel && $hotel['owner_id'] == $verifiedUserId
         && filter_var($price, FILTER_VALIDATE_INT) && filter_var($capacity, FILTER_VALIDATE_INT)
         && $price > 0 && $capacity > 0
     ) {
+
         $roomId = addRoom($connection, $hotel_id, htmlspecialchars($title), htmlspecialchars($description), $price, $capacity);
+
         if ($roomId) {
             return ['id' => $roomId, 'hotel_id' => $hotel_id, 'title' => $title,
                 'description' => $description, 'price' => $price, 'capacity' => $capacity];
@@ -50,10 +53,13 @@ function createNewRoom($connection, $hotel_id, $verifiedUserId, $title, $descrip
 function getRoomInfo($connection, $id)
 {
     require_once 'database/rooms.php';
+
     if (!filter_var($id, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid id', 'status' => 400];
     }
+
     $room = findRoomById($connection, $id);
+
     if ($room) {
         return $room;
     } else {
@@ -65,9 +71,13 @@ function getRoomsForOwnerByHotelId($connection, $id, $hotel_id, $page = 1)
 {
     require_once 'database/rooms.php';
     require_once 'database/hotels.php';
+
     $hotel = findHotelById($connection, $hotel_id);
+
     if ($hotel && $hotel['owner_id'] == $id) {
+
         $rooms = findRoomsForOwnerByHotelId($connection, $hotel_id, $page);
+
         if ($rooms) {
             return $rooms;
         } else {
@@ -77,4 +87,6 @@ function getRoomsForOwnerByHotelId($connection, $id, $hotel_id, $page = 1)
         return ['error' => 'You should be an owner', 'status' => 403];
     }
 }
+
+?>
 

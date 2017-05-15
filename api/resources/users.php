@@ -26,9 +26,11 @@ function requestHandler($connection, $requestType, $params)
 function getUserInfo($connection, $id)
 {
     require_once 'database/users.php';
+
     if (!filter_var($id, FILTER_VALIDATE_INT)) {
         return ['error' => 'Invalid id', 'status' => 400];
     }
+
     $user = findUserById($connection, $id);
     if ($user) {
         return hideFields($user, ['password', 'salt']);
@@ -40,6 +42,7 @@ function getUserInfo($connection, $id)
 function registerUser($connection, $type, $firstname, $lastname, $email, $password)
 {
     require_once 'database/users.php';
+
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return ['error' => 'Invalid e-mail', 'status' => 400];
     } else if (findUser($connection, $email)) {
@@ -47,9 +50,11 @@ function registerUser($connection, $type, $firstname, $lastname, $email, $passwo
     } else if (!in_array($type, ['owner', 'customer'])) {
         return ['error' => 'Invalid user type!', 'status' => 400];
     }
+
     $hashData = cryptPassword($password);
     $hash = $hashData['encryptedPassword'];
     $salt = $hashData['salt'];
+
     $userId = addUser($connection, $type, $firstname, $lastname, $email, $hash, $salt);
     if ($userId) {
         return ['id' => $userId, 'email' => $email, 'firstname' => $firstname, 'lastname' => $lastname, 'user_type' => $type];
