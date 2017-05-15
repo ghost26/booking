@@ -5,9 +5,9 @@ function requestHandler($connection, $requestType, $params)
 {
     switch ($requestType) {
         case 'POST':
-            $missingArgs = checkMandatoryParams($params, ['verifiedUserId', 'hotel_id', 'start_date', 'end_date']);
+            $missingArgs = checkMandatoryParams($params, ['verifiedUserId', 'hotel_id', 'capacity', 'start_date', 'end_date']);
             if (!$missingArgs) {
-                return createBookmark($connection, $params['verifiedUserId'], $params['hotel_id'], $params['start_date'],
+                return createBookmark($connection, $params['verifiedUserId'], $params['hotel_id'], $params['capacity'], $params['start_date'],
                     $params['end_date']);
             }
             break;
@@ -20,13 +20,17 @@ function requestHandler($connection, $requestType, $params)
 }
 
 
-function createBookmark($connection, $id, $hotel_id, $start_date, $end_date)
+function createBookmark($connection, $id, $hotel_id, $capacity, $start_date, $end_date)
 {
     require_once 'database/users.php';
     require_once 'database/hotels.php';
     require_once 'database/bookmarks.php';
     $user = findUserById($connection, $id);
     $hotel = findHotelById($connection, $hotel_id);
+    $bookmark = findBookmark($connection, $id, $hotel_id, $capacity, $start_date, $end_date);
+    if ($bookmark) {
+        return ['error' => 'Bookmark already exists', 'status' => 400];
+    }
     if (!$user || ($user && $user['type'] != 'customer')) {
         return ['error' => 'You are not a customer', 'status' => 403];
     }
@@ -40,11 +44,11 @@ function createBookmark($connection, $id, $hotel_id, $start_date, $end_date)
         $end_date = normalizeDate($end_date);
     }
     $curDay = normalizeDate(time(), '00:00');
-    if ($curDay < $start_date && $end_date > $start_date && $end_date - $start_date >= 86400) {
-        $bookmarkId = addBookmark($connection, $id, $hotel_id, $start_date, $end_date);
+    if ($curDay < $start_date && $end_date > $start_date && $end_date - $start_date >= 86400 && $capacity > 0) {
+        $bookmarkId = addBookmark($connection, $id, $hotel_id, $capacity, $start_date, $end_date);
         if ($bookmarkId) {
-            return ['id' => $bookmarkId, 'start_date' => $start_date,
-                'end_date' => $end_date, 'hotel_id' => $hotel_id];
+            return ['id' => $bookmarkId, 'hotel_id' => $hotel_id, 'capacity' => $capacity, 'start_date' => $start_date,
+                'end_date' => $end_date];
         } else {
             return ['error' => 'Could not add bookmark', 'status' => 500];
         }
@@ -69,6 +73,6 @@ function getBookmarksByUserId($connection, $id, $page = 1)
     if ($bookmarks) {
         return $bookmarks;
     } else {
-        return ['error' => 'Bookings not found', 'status' => 404];
+        return ['error' => 'Bookmarks not found', 'status' => 404];
     }
 }

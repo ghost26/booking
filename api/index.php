@@ -4,7 +4,7 @@ date_default_timezone_set('Europe/Moscow');
 require_once 'database/connect.php';
 $connection = createConnection();
 
-header("Content-type: application/json; charset=utf-8");
+//header("Content-type: application/json; charset=utf-8");
 $splitURI = explode('/', parse_url($_SERVER['REQUEST_URI'])['path']);
 $resource = isset($splitURI[3]) ? $splitURI[3] : '';
 switch ($resource) {
@@ -26,11 +26,12 @@ switch ($resource) {
         exit(json_encode(createErrorMessage(['error' => 'Resource not found'], 404)));
 }
 
-$authRequired = [
+
+static $authRequired = [
     'GET' => [
         'users' => true,
         'cities' => false,
-        'rooms' => false,
+        'rooms' => true,
         'hotels' => false,
         'countries' => false,
         'bookings' => true,
@@ -48,17 +49,17 @@ $authRequired = [
     ]
 ];
 
-if (isset($authRequired[$_SERVER['REQUEST_METHOD']][$resource]) && $authRequired[$_SERVER['REQUEST_METHOD']][$resource]) {
+$verifiedUserId = false;
+if (isset($_COOKIE['authorizationId']) && isset($_COOKIE['token'])) {
     require_once 'utils/authorization_checker.php';
-    if (isset($_COOKIE['authorizationId']) && isset($_COOKIE['token'])) {
-        $verifiedUserId = checkAuth($connection, $_COOKIE['authorizationId'], $_COOKIE['token']);
-        if ($verifiedUserId) {
-            $_REQUEST['verifiedUserId'] = $verifiedUserId;
-        } else {
-            exit(json_encode(createErrorMessage(['error' => 'Unauthorized'], 401)));
-        }
-    }
+    $verifiedUserId = checkAuth($connection, $_COOKIE['authorizationId'], $_COOKIE['token']);
 }
+if (isset($authRequired[$_SERVER['REQUEST_METHOD']][$resource])
+    && $authRequired[$_SERVER['REQUEST_METHOD']][$resource] && !$verifiedUserId
+) {
+    exit(json_encode(wrapResponse(['error' => 'Unauthorized', 'status' => 401])));
+}
+$_REQUEST['verifiedUserId'] = $verifiedUserId;
 
 
 $response = requestHandler($connection, $_SERVER['REQUEST_METHOD'], $_REQUEST);

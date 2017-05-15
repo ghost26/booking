@@ -12,10 +12,12 @@ function requestHandler($connection, $requestType, $params)
             }
             break;
         case 'GET':
-            $missingArgs = checkMandatoryParams($params, ['id']);
-            if (!$missingArgs) {
+            if (isset($params['id'])) {
                 return getRoomInfo($connection, $params['id']);
+            } else if (isset($params['hotel_id'])) {
+                return getRoomsForOwnerByHotelId($connection, $params['verifiedUserId'], $params['hotel_id'], isset($params['page']) ? $params['page'] : 1);
             }
+            $missingArgs = ['id'];
             break;
         default:
             return ['error' => 'Bad request', 'status' => 400];
@@ -56,6 +58,23 @@ function getRoomInfo($connection, $id)
         return $room;
     } else {
         return ['error' => 'Hotel not found', 'status' => 404];
+    }
+}
+
+function getRoomsForOwnerByHotelId($connection, $id, $hotel_id, $page = 1)
+{
+    require_once 'database/rooms.php';
+    require_once 'database/hotels.php';
+    $hotel = findHotelById($connection, $hotel_id);
+    if ($hotel && $hotel['owner_id'] == $id) {
+        $rooms = findRoomsForOwnerByHotelId($connection, $hotel_id, $page);
+        if ($rooms) {
+            return $rooms;
+        } else {
+            return ['error' => 'Rooms not found', 'status' => 404];
+        }
+    } else {
+        return ['error' => 'You should be an owner', 'status' => 403];
     }
 }
 

@@ -61,9 +61,8 @@ function addBooking($connection, $user_id, $start_date, $end_date, $hotel_id, $r
 
 function findBookingsByHotelId($connection, $id, $page = 1)
 {
-
     $statement = mysqli_stmt_init($connection);
-    $items_per_page = 20;
+    $items_per_page = 18;
     $offset = ($page - 1) * $items_per_page;
     if (mysqli_stmt_prepare($statement, "SELECT * FROM bookings WHERE hotel_id = ? ORDER BY id DESC LIMIT ?,?")) {
         mysqli_stmt_bind_param($statement, "iii", $id, $offset, $items_per_page);
@@ -84,16 +83,23 @@ function findBookingsByHotelId($connection, $id, $page = 1)
 function findBookingsByUserId($connection, $id, $page = 1)
 {
     $statement = mysqli_stmt_init($connection);
-    $items_per_page = 20;
+    $items_per_page = 18;
     $offset = ($page - 1) * $items_per_page;
-    if (mysqli_stmt_prepare($statement, "SELECT * FROM bookings WHERE user_id = ? ORDER BY id DESC LIMIT ?,?")) {
+    if (mysqli_stmt_prepare($statement, "
+        SELECT 
+          B.*, H.name AS hotel_name, H.address AS hotel_address
+        FROM 
+          bookings AS B INNER JOIN 
+          hotels AS H ON B.hotel_id = H.id 
+        WHERE 
+          B.user_id = ? ORDER BY B.id DESC LIMIT ?,?")) {
         mysqli_stmt_bind_param($statement, "iii", $id, $offset, $items_per_page);
         mysqli_stmt_execute($statement);
-        mysqli_stmt_bind_result($statement, $_id, $user_id, $start_date, $end_date, $hotel_id, $room_id, $created_at);
+        mysqli_stmt_bind_result($statement, $_id, $user_id, $start_date, $end_date, $hotel_id, $room_id, $created_at, $hotel_name, $hotel_address);
         $error = mysqli_stmt_error($statement);
         $bookings = [];
         while (mysqli_stmt_fetch($statement)) {
-            $bookings[] = ['id' => $_id, 'user_id' => $user_id, 'hotel_id' => $hotel_id, 'room_id' => $room_id, 'start_date' => $start_date,
+            $bookings[] = ['id' => $_id, 'user_id' => $user_id, 'hotel_id' => $hotel_id, 'hotel_name' => $hotel_name, 'hotel_address' => $hotel_address, 'room_id' => $room_id, 'start_date' => $start_date,
                 'end_date' => $end_date, 'created_at' => $created_at];
         }
         mysqli_stmt_close($statement);

@@ -12,9 +12,10 @@ function requestHandler($connection, $requestType, $params)
             }
             break;
         case 'GET':
-            $missingArgs = checkMandatoryParams($params, ['id']);
-            if (!$missingArgs) {
+            if (isset($params['id'])) {
                 return getHotelInfo($connection, $params['id']);
+            } else if ($params['verifiedUserId']) {
+                return getHotelsByOwnerId($connection, $params['verifiedUserId'], isset($params['page']) ? $params['page'] : 1);
             }
             break;
         default:
@@ -33,7 +34,7 @@ function createNewHotel($connection, $name, $verifiedUserId, $description, $coun
     $user = findUserById($connection, $verifiedUserId);
     $city = findCityById($connection, $city_id);
     // More validations ?
-    if ($user && $user['type'] == 'owner' && $city && $city['countryId'] == $country_id
+    if ($user && $user['type'] == 'owner' && $city && $city['country_id'] == $country_id
         && filter_var($stars, FILTER_VALIDATE_INT) && $stars > 0 && $stars < 6
     ) {
         $hotelId = addHotel($connection, htmlspecialchars($name), $verifiedUserId, htmlspecialchars($description),
@@ -60,6 +61,23 @@ function getHotelInfo($connection, $id)
         return $hotel;
     } else {
         return ['error' => 'Hotel not found', 'status' => 404];
+    }
+}
+
+function getHotelsByOwnerId($connection, $id, $page = 1)
+{
+    require_once 'database/hotels.php';
+    require_once 'database/users.php';
+    $user = findUserById($connection, $id);
+    if ($user && $user['type'] == 'owner') {
+        $hotels = findHotelsByOwnerId($connection, $id, $page);
+        if ($hotels) {
+            return $hotels;
+        } else {
+            return ['error' => 'Hotels not found', 'status' => 404];
+        }
+    } else {
+        return ['error' => 'You should be an owner', 'status' => 403];
     }
 }
 

@@ -31,3 +31,24 @@ function findHotelById($connection, $id)
     }
     return false;
 }
+
+function findHotelsByOwnerId($connection, $id, $page = 1)
+{
+    $statement = mysqli_stmt_init($connection);
+    $items_per_page = 18;
+    $offset = ($page - 1) * $items_per_page;
+    if (mysqli_stmt_prepare($statement, "SELECT * FROM hotels WHERE owner_id = ? ORDER BY id DESC LIMIT ?,?")) {
+        mysqli_stmt_bind_param($statement, "iii", $id, $offset, $items_per_page);
+        mysqli_stmt_execute($statement);
+        mysqli_stmt_bind_result($statement, $_id, $name, $owner_id, $description, $country_id, $city_id, $address, $stars);
+        $error = mysqli_stmt_error($statement);
+        $hotels = [];
+        while (mysqli_stmt_fetch($statement)) {
+            $hotels[] = ['id' => $_id, 'name' => $name, 'description' => $description,
+                'country_id' => $country_id, 'city_id' => $city_id, 'address' => $address, 'stars' => $stars];
+        }
+        mysqli_stmt_close($statement);
+        return $error ? false : ['count' => count($hotels), 'hotels' => $hotels];
+    }
+    return false;
+}

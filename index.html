@@ -1,10 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Бронирование</title>
-</head>
-<body>
 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+
+    <title>Booking</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Styles -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet"
+          href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/build/css/bootstrap-datetimepicker.css">
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"
+            charset="utf-8"></script>
+    <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/src/js/bootstrap-datetimepicker.js"
+            charset="utf-8"></script>
+
+    <!-- config -->
+    <script src="assets/js/config.js"></script>
+
+    <!-- utils -->
+    <script src="assets/js/utils/utils.js"></script>
+
+    <!-- init -->
+    <script src="assets/js/init.js"></script>
+
+    <!-- templates -->
+    <script src="assets/js/templates/hello.js"></script>
+    <script src="assets/js/templates/admin.js"></script>
+    <script src="assets/js/templates/rooms.js"></script>
+    <script src="assets/js/templates/search.js"></script>
+    <script src="assets/js/templates/cities.js"></script>
+    <script src="assets/js/templates/notfound.js"></script>
+    <script src="assets/js/templates/bookmarks.js"></script>
+    <script src="assets/js/templates/empty_content.js"></script>
+    <script src="assets/js/templates/denied.js"></script>
+    <script src="assets/js/templates/search_result.js"></script>
+    <script src="assets/js/templates/bookings.js"></script>
+    <script src="assets/js/templates/admin_bookings.js"></script>
+    <script src="assets/js/templates/countries.js"></script>
+    <script src="assets/js/templates/offers.js"></script>
+    <script src="assets/js/templates/popup.js"></script>
+
+    <!--controllers-->
+    <script src="assets/js/controllers/home.js"></script>
+    <script src="assets/js/controllers/offers.js"></script>
+    <script src="assets/js/controllers/popup.js"></script>
+    <script src="assets/js/controllers/admin.js"></script>
+    <script src="assets/js/controllers/denied.js"></script>
+    <script src="assets/js/controllers/notfound.js"></script>
+    <script src="assets/js/controllers/bookings.js"></script>
+    <script src="assets/js/controllers/popup.js"></script>
+    <script src="assets/js/controllers/bookmarks.js"></script>
+    <script src="assets/js/controllers/login.js"></script>
+    <script src="assets/js/controllers/navbar.js"></script>
+    <script src="assets/js/controllers/register.js"></script>
+
+    <!-- views -->
+    <script src="assets/js/views/home.js"></script>
+    <script src="assets/js/views/bookings.js"></script>
+    <script src="assets/js/views/admin.js"></script>
+    <script src="assets/js/views/offers.js"></script>
+    <script src="assets/js/views/denied.js"></script>
+    <script src="assets/js/views/bookmarks.js"></script>
+    <script src="assets/js/views/notfound.js"></script>
+
+</head>
+
+<body>
+<header>
+
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="navbar-home" class="navbar-brand" href="#home"><span class="glyphicon glyphicon-bookmark"
+                                                                            aria-hidden="true"></span> Booking</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="" id="navbar-bookmarks" name="navbar-item" style="display: none;"><a href="#bookmarks">Закладки</a>
+                    </li>
+                    <li id="navbar-bookings" name="navbar-item" style="display: none;"><a
+                            href="#bookings">Бронирования</a></li>
+                    <li id="navbar-admin" name="navbar-item" style="display: none;"><a
+                            href="#admin">Администрирование</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false"><span id="profile-name">Мой профиль</span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li style="" id="navbar-enter"><a href="#top-signin" id="top-sign-open" data-toggle="modal"
+                                                              data-target="#my-modal">Вход</a></li>
+                            <li style="" id="navbar-reg"><a href="#top-signup" data-toggle="modal"
+                                                            data-target="#my-modal">Регистрация</a></li>
+                            <li style="display: none;" id="navbar-logout"><a href="#" onclick="utils.logout()">Выйти</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="modal fade bs-modal-sm" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <br>
+            <div class="bs-example bs-example-tabs">
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active" id="top-signin"><a href="#signin" data-toggle="tab">Вход</a></li>
+                    <li class="" id="top-reg"><a href="#signup" data-toggle="tab">Регистрация</a></li>
+                    <li class="" id="top-why"><a href="#why" data-toggle="tab">Зачем?</a></li>
+                </ul>
+            </div>
+            <div class="modal-body">
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade" id="why">
+                        <p>Если Вы хотите забронировать отель или создать закладки с интересющими вариантами, то вы
+                            должны быть авторизованны</p>
+                        <p></p><br> Можете задать вопрос на
+                        <a mailto:href="№"></a>mail@booking.ru</a>
+                        </p>
+                    </div>
+                    <div class="tab-pane fade active in" id="signin">
+                        <form class="form-horizontal" onsubmit="utils.login(event)">
+                            <fieldset>
+                                <div id="reg-success" class="alert alert-success" role="alert" style="display: none">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    Вы успешно зарегистрированы!
+                                </div>
+                                <div id="login-error" class="alert alert-danger" role="alert" style="display: none">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Ошибка:</span>
+                                    Неверная почта или пароль
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="login-email">Почта:</label>
+                                    <div class="controls">
+                                        <input required="" id="login-email" name="useremail" type="email"
+                                               class="form-control" placeholder="sample@sample.com" class="input-medium"
+                                               required="">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="login-password">Пароль:</label>
+                                    <div class="controls">
+                                        <input required="" id="login-password" name="passwordinput" class="form-control"
+                                               type="password" placeholder="********" class="input-medium">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="signin"></label>
+                                    <div class="controls">
+                                        <button id="login-signin" name="confirmsignup" class="btn btn-success">Войти
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="signup">
+                        <form class="form-horizontal" id="reg-form" onsubmit="utils.register(event)">
+                            <fieldset>
+                                <div id="reg-error" class="alert alert-danger" role="alert" style="display: none">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    Ошибка регистрации: <p id="reg-error-reason"></p>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="reg-email">Email:</label>
+                                    <div class="controls">
+                                        <input id="reg-email" name="Email" class="form-control" type="email"
+                                               placeholder="sample@sample.com" class="input-large" required="">
+                                    </div>
+                                </div>
+
+                                <!-- Text input-->
+                                <div class="control-group">
+                                    <label class="control-label" for="reg-firstname">Имя:</label>
+                                    <div class="controls">
+                                        <input id="reg-firstname" name="firstname" class="form-control" type="text"
+                                               placeholder="Иван" class="input-large" required="">
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="reg-lastname">Фамилия:</label>
+                                    <div class="controls">
+                                        <input id="reg-lastname" name="lastname" class="form-control" type="text"
+                                               placeholder="Иванов" class="input-large" required="">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="reg-password">Пароль:</label>
+                                    <div class="controls">
+                                        <input id="reg-password" minlength="4" maxlength="20" name="password"
+                                               class="form-control" type="password" placeholder="********"
+                                               class="input-large" required="">
+                                        <em>4-20 символов</em>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="control-group">
+                                    <label class="control-label" for="reg-type">Я хочу:</label>
+                                    <div class="controls" id="reg-type">
+                                        <label class="radio inline" for="reg-type-1">
+                                            <input type="radio" name="accesslvl" id="reg-type-1" value="customer"
+                                                   checked="checked">Найти отель</label>
+                                        <label class="radio inline" for="reg-type-2">
+                                            <input type="radio" name="accesslvl" id="reg-type-2" value="owner">Добавить
+                                            отель</label>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="confirmsignup"></label>
+                                    <div class="controls">
+                                        <button id="confirmsignup" name="confirmsignup" class="btn btn-success">
+                                            Зарегистрироваться
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div style="text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="close-button">Закрыть
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="popup-alert"></div>
+<div class="container">
+    <div class="row">
+        <div id="page-content" class="main-content"></div>
+    </div>
+</div>
 </body>
+
 </html>

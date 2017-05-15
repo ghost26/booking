@@ -7,7 +7,7 @@ function findOffersByCityId($connection, $city_id, $start_date, $end_date, $capa
     $capacity = sprintf("%d", $capacity);
     $end_date = sprintf("%d", $end_date);
     $page = sprintf("%d", $page);
-    $items_per_page = 15;
+    $items_per_page = 18;
     $offset = ($page - 1) * $items_per_page;
     $query = "
         SELECT 
@@ -20,8 +20,8 @@ function findOffersByCityId($connection, $city_id, $start_date, $end_date, $capa
                 rooms AS R 
              WHERE
                 R.capacity >= $capacity AND
-                $start_date >= ALL (SELECT end_date FROM bookings AS B WHERE B.room_id = R.id AND B.start_date < $start_date) AND
-                $end_date <= ALL (SELECT start_date FROM bookings AS B WHERE B.room_id = R.id AND B.end_date > $end_date) 
+                $start_date >= ALL (SELECT end_date FROM bookings AS B WHERE B.room_id = R.id AND B.start_date <= $start_date) AND
+                $end_date <= ALL (SELECT start_date FROM bookings AS B WHERE B.room_id = R.id AND B.end_date >= $end_date) 
             ) AS ROOMS
             ON H.id = ROOMS.hotel_id
         WHERE
@@ -44,7 +44,7 @@ function findOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $ca
     $capacity = sprintf("%d", $capacity);
     $end_date = sprintf("%d", $end_date);
     $page = sprintf("%d", $page);
-    $items_per_page = 15;
+    $items_per_page = 18;
     $offset = ($page - 1) * $items_per_page;
     $query = "
          SELECT *
@@ -53,8 +53,8 @@ function findOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $ca
          WHERE
             R.capacity >= $capacity AND
             R.hotel_id = $hotel_id AND 
-            $start_date >= ALL (SELECT end_date FROM bookings AS B WHERE B.room_id = R.id AND B.start_date < $start_date) AND
-            $end_date <= ALL (SELECT start_date FROM bookings AS B WHERE B.room_id = R.id AND B.end_date > $end_date)
+            $start_date >= ALL (SELECT end_date FROM bookings AS B WHERE B.room_id = R.id AND B.start_date <= $start_date) AND
+            $end_date <= ALL (SELECT start_date FROM bookings AS B WHERE B.room_id = R.id AND B.end_date >= $end_date)
          ORDER BY R.price ASC LIMIT $offset,$items_per_page";
     if ($result = mysqli_query($connection, $query)) {
         $offers = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -63,19 +63,3 @@ function findOffersByHotelId($connection, $hotel_id, $start_date, $end_date, $ca
     }
     return false;
 }
-
-
-
-
-
-//$query1 = "
-//         SELECT *
-//         FROM
-//            rooms AS R
-//         WHERE
-//            R.capacity >= $capacity AND
-//            $startDate > ALL (SELECT end_date FROM bookings AS B WHERE B.room_id = R.id AND B.start_date < $startDate) AND
-//            $end_date < ALL (SELECT start_date FROM bookings AS B WHERE B.room_id = R.id AND B.end_date > $end_date) AND
-//            R.hotel_id = $hotelId
-//         ORDER BY R.price ASC
-//         LIMIT 0,10";

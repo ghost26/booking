@@ -31,3 +31,24 @@ function findRoomById($connection, $id)
     }
     return false;
 }
+
+function findRoomsForOwnerByHotelId($connection, $id, $page = 1)
+{
+    $statement = mysqli_stmt_init($connection);
+    $items_per_page = 18;
+    $offset = ($page - 1) * $items_per_page;
+    if (mysqli_stmt_prepare($statement, "SELECT * FROM rooms WHERE hotel_id = ? ORDER BY id DESC LIMIT ?,?")) {
+        mysqli_stmt_bind_param($statement, "iii", $id, $offset, $items_per_page);
+        mysqli_stmt_execute($statement);
+        mysqli_stmt_bind_result($statement, $_id, $hotel_id, $title, $description, $price, $capacity);
+        $error = mysqli_stmt_error($statement);
+        $rooms = [];
+        while (mysqli_stmt_fetch($statement)) {
+            $rooms[] = ['id' => $_id, 'title' => $title, 'description' => $description,
+                'price' => $price, 'capacity' => $capacity];
+        }
+        mysqli_stmt_close($statement);
+        return $error ? false : ['count' => count($rooms), 'rooms' => $rooms];
+    }
+    return false;
+}

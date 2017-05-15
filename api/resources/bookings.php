@@ -27,7 +27,7 @@ function getBookingsByHotelId($connection, $verifiedUserId, $id, $page = 1)
 {
     require_once 'database/bookings.php';
     require_once 'database/hotels.php';
-    $hotel = findHotelById($connection, $verifiedUserId);
+    $hotel = findHotelById($connection, $id);
     if (!$hotel) {
         return ['error' => 'Hotel not found', 'status' => 404];
     } else if ($hotel['owner_id'] != $verifiedUserId) {
@@ -82,7 +82,7 @@ function createBooking($connection, $verifiedUserId, $start_date, $end_date, $ro
             return ['id' => $roomId, 'user_id' => $verifiedUserId, 'start_date' => $start_date,
                 'end_date' => $end_date, 'hotel_id' => $room['hotel_id']];
         } else {
-            return ['error' => 'The room has already booked', 'status' => 500];
+            return ['error' => 'The room has already booked', 'status' => 400];
         }
     } else {
         return ['error' => 'Validation failed', 'status' => 400];
