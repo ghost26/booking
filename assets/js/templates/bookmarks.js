@@ -29,6 +29,7 @@ templates.bookmarks = function (data) {
               <ul class="list-group">
                 <li class="list-group-item"><b>О отеле: </b>` + data[i].hotel_description + `</li>
                 <li class="list-group-item"><b>Адрес: </b>` + data[i].hotel_address + `</li>
+                <li class="list-group-item"><b>Звезд: </b>` + data[i].hotel_stars + `</li>
                 <li class="list-group-item"><b>Количество гостей: </b>` + data[i].capacity + `</li>
                 <li class="list-group-item"><b>Заезд: </b>` + start_date.toLocaleDateString() + `</li>
                 <li class="list-group-item"><b>Выезд: </b>` + end_date.toLocaleDateString() + `</li>

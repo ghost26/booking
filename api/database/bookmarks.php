@@ -20,7 +20,7 @@ function findBookmarksByUserId($connection, $id, $page = 1)
     $offset = ($page - 1) * $items_per_page;
     if (mysqli_stmt_prepare($statement, "
         SELECT 
-          B.*, H.name AS hotel_name, H.description AS hotel_description, H.address AS hotel_address
+          B.*, H.name AS hotel_name, H.description AS hotel_description, H.address AS hotel_address, H.stars AS hotel_stars
         FROM 
           bookmarks AS B INNER JOIN 
           hotels AS H ON B.hotel_id = H.id 
@@ -28,12 +28,12 @@ function findBookmarksByUserId($connection, $id, $page = 1)
           B.user_id = ? ORDER BY B.id DESC LIMIT ?,?")) {
         mysqli_stmt_bind_param($statement, "iii", $id, $offset, $items_per_page);
         mysqli_stmt_execute($statement);
-        mysqli_stmt_bind_result($statement, $_id, $user_id, $hotel_id, $capacity, $start_date, $end_date, $hotel_name, $hotel_description, $hotel_address);
+        mysqli_stmt_bind_result($statement, $_id, $user_id, $hotel_id, $capacity, $start_date, $end_date, $hotel_name, $hotel_description, $hotel_address, $hotel_stars);
         $error = mysqli_stmt_error($statement);
         $bookmarks = [];
         while (mysqli_stmt_fetch($statement)) {
             $bookmarks[] = ['id' => $_id, 'hotel_id' => $hotel_id, 'capacity' => $capacity, 'hotel_name' => $hotel_name,
-                'hotel_description' => $hotel_description, 'hotel_address' => $hotel_address, 'start_date' => $start_date, 'end_date' => $end_date];
+                'hotel_description' => $hotel_description, 'hotel_address' => $hotel_address, 'hotel_stars' => $hotel_stars, 'start_date' => $start_date, 'end_date' => $end_date];
         }
         mysqli_stmt_close($statement);
         return $error ? false : ['count' => count($bookmarks), 'bookmarks' => $bookmarks];

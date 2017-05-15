@@ -3,7 +3,7 @@ templates.admin_bookings = function (data) {
   <div class="container">
       <div class="panel panel-default">
           <div id="admin-panel" class="panel-body">
-            <div class="col-md-6 col-xs-12">
+            <div class="col-md-12">
               <h5 id="bookmarks-title">Управление бронированиями отеля <span id="booking-control-hotel-name"></h5>
             </div>
           </div>
