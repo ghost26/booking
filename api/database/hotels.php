@@ -3,7 +3,8 @@ function addHotel($connection, $name, $owner_id, $description, $country_id, $cit
 {
     $statement = mysqli_stmt_init($connection);
     if (mysqli_stmt_prepare($statement, "INSERT INTO hotels(name, owner_id, description, country_id, city_id, address, stars) VALUES(?, ?, ?, ?, ?, ?, ?)")) {
-        mysqli_stmt_bind_param($statement, "sisiisi", $name, $owner_id, $description, $country_id, $city_id, $address, $stars);
+        mysqli_stmt_bind_param($statement, "sisiisi", htmlspecialchars($name), $owner_id,
+            htmlspecialchars($description), $country_id, $city_id, htmlspecialchars($address), $stars);
         mysqli_stmt_execute($statement);
 
         $error = mysqli_stmt_error($statement);

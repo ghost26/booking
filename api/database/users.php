@@ -3,7 +3,7 @@ function addUser($connection, $type, $firstname, $lastname, $email, $password, $
 {
     $statement = mysqli_stmt_init($connection);
     if (mysqli_stmt_prepare($statement, "INSERT INTO users(user_type, firstname, lastname, email, password, salt) VALUES(?, ?, ?, ?, ?, ?)")) {
-        mysqli_stmt_bind_param($statement, "ssssss", $type, $firstname, $lastname, $email, $password, $salt);
+        mysqli_stmt_bind_param($statement, "ssssss", $type, htmlspecialchars($firstname), htmlspecialchars($lastname), $email, $password, $salt);
         mysqli_stmt_execute($statement);
 
         $error = mysqli_stmt_error($statement);

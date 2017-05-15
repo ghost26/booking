@@ -3,7 +3,7 @@ function addRoom($connection, $hotel_id, $title, $description, $price, $capacity
 {
     $statement = mysqli_stmt_init($connection);
     if (mysqli_stmt_prepare($statement, "INSERT INTO rooms(hotel_id, title, description, price, capacity) VALUES(?, ?, ?, ?, ?)")) {
-        mysqli_stmt_bind_param($statement, "issii", $hotel_id, $title, $description, $price, $capacity);
+        mysqli_stmt_bind_param($statement, "issii", $hotel_id, htmlspecialchars($title), htmlspecialchars($description), $price, $capacity);
         mysqli_stmt_execute($statement);
 
         $error = mysqli_stmt_error($statement);
