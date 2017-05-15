@@ -55,8 +55,9 @@ var utils = (function () {
             var el = document.getElementById(element_id);
             if (el !== null) {
                 el.innerHTML = content;
+                el.scrollIntoView();
             }
-            window.scroll(0, 0);
+            // window.scroll(0, 0);
         },
         // jquery only for beauty datepicker :)
         runPicker: function () {

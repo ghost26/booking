@@ -3,7 +3,7 @@ templates.rooms = function (data, params) {
       <div class="container">
           <div class="panel panel-default">
               <div id="admin-panel" class="panel-body">
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-12">
                   <h5 id="admin-title">Управление отеля <span id="rooms-hotel-name"></span></h5>
                 </div>
                 <div id="admin-head-buttom" class="col-md-6 col-xs-12">
