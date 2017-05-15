@@ -5,6 +5,7 @@ controllers.register_success = function (data, params) {
     var el_4 = document.getElementById('reg-password');
     var el_5 = document.getElementById('reg-error');
     var el_6 = document.getElementById('reg-success');
+    var el_9 = document.getElementById('login-error');
 
 
     if (el_1 !== null) el_1.value = "";
@@ -13,6 +14,7 @@ controllers.register_success = function (data, params) {
     if (el_4 !== null) el_4.value = "";
     if (el_5 !== null) el_5.style.display = 'none';
     if (el_6 !== null) el_6.style.display = 'block';
+    if (el_9 !== null) el_9.style.display = 'none';
 
 
     var elems = document.querySelectorAll('.active.in');
