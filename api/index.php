@@ -4,7 +4,7 @@ date_default_timezone_set('Europe/Moscow');
 require_once 'database/connect.php';
 $connection = createConnection();
 
-//header("Content-type: application/json; charset=utf-8");
+header("Content-type: application/json; charset=utf-8");
 $splitURI = explode('/', parse_url($_SERVER['REQUEST_URI'])['path']);
 $resource = isset($splitURI[3]) ? $splitURI[3] : '';
 switch ($resource) {
