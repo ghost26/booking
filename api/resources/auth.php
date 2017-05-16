@@ -31,7 +31,7 @@ function authorizeUser($connection, $email, $password)
     $hash = base64_encode(hash('sha256', $password . $salt, true) . $salt);
 
     if ($hash != $passwordHash || !$user) {
-        return ['error' => 'Wrong login or password!'];
+        return ['error' => 'Wrong login or password!', 'status' => 400];
     }
 
     $authorization = findAuthorizationByUserId($connection, $user['id']);
