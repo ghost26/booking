@@ -16,6 +16,8 @@ function requestHandler($connection, $requestType, $params)
                 return getHotelInfo($connection, $params['id']);
             } else if ($params['verifiedUserId']) {
                 return getHotelsByOwnerId($connection, $params['verifiedUserId'], isset($params['page']) ? $params['page'] : 1);
+            } else {
+                return ['error' => 'Unauthorized', 'status' => 401];
             }
             break;
         default:

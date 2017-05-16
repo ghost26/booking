@@ -34,20 +34,26 @@ var utils = (function () {
                 isAuthorized = true;
                 controllers.navbar_logged_in();
             }
+
+            var isSpecificView = false;
             if (auth[function_to_invoke]) {
                 if (auth[function_to_invoke].authRequired
                     && (!isAuthorized || (isAuthorized && (['all', user.type].indexOf(auth[function_to_invoke].accessUserType) === -1)))) {
                     views['denied']();
+                    isSpecificView = true;
                 }
             } else {
+                isSpecificView = true;
                 views['notfound']();
             }
 
-            if (['bookmarks', 'bookings', 'admin', 'home'].indexOf(function_to_invoke) !== -1)
-                controllers.change_active_nav_item(function_to_invoke);
+            if (!isSpecificView) {
+                if (['bookmarks', 'bookings', 'admin', 'home'].indexOf(function_to_invoke) !== -1)
+                    controllers.change_active_nav_item(function_to_invoke);
 
-            if (function_to_invoke) {
-                views[function_to_invoke](data, params);
+                if (function_to_invoke) {
+                    views[function_to_invoke](data, params);
+                }
             }
         },
 
@@ -234,11 +240,13 @@ var utils = (function () {
                     }
                 },
                 error: function (rq, er, err) {
-                    if (error_callback) {
-
-                        controllers[error_callback](
-                            rq, params
-                        );
+                    if (rq.status === 401) {
+                        utils.logout();
+                        window.location.href = "#";
+                    } else if (error_callback) {
+                            controllers[error_callback](
+                                rq, params
+                            );
                     }
                 }
             });
