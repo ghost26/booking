@@ -37,7 +37,6 @@ function findUser($connection, $email)
     return false;
 }
 
-
 function findUserById($connection, $id)
 {
     $statement = mysqli_stmt_init($connection);

@@ -1,5 +1,4 @@
 <?php
-
 $connection = null;
 
 function createConnection()

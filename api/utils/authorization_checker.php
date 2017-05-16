@@ -21,3 +21,5 @@ function checkAuth($connection, $authId, $token)
     }
     return false;
 }
+
+?>

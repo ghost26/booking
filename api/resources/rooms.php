@@ -89,4 +89,3 @@ function getRoomsForOwnerByHotelId($connection, $id, $hotel_id, $page = 1)
 }
 
 ?>
-

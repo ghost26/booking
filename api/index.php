@@ -27,7 +27,6 @@ switch ($resource) {
         exit(json_encode(createErrorMessage(['error' => 'Resource not found'], 404)));
 }
 
-
 static $authRequired = [
     'GET' => [
         'users' => true,

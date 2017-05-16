@@ -1,5 +1,4 @@
 <?php
-
 function createErrorMessage($error, $statusCode = 500)
 {
     http_response_code($statusCode);
