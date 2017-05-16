@@ -48,7 +48,6 @@ controllers.create_hotel_success = function (data, params) {
         'admin_hotels_success',
         'admin_hotels_fail'
     );
-    // utils.render('hotel-cities', cities);
 }
 controllers.create_room_success = function (data, params) {
     var el_1 = document.getElementById('room-close-button');
@@ -60,7 +59,6 @@ controllers.create_room_success = function (data, params) {
     if (el_3 !== null) el_3.value = "";
     if (el_4 !== null) el_4.value = "";
     utils.router();
-    // utils.render('hotel-cities', cities);
 }
 controllers.create_room_fail = function (data, params) {
     controllers.popup_fail();

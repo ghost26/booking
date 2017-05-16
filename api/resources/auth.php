@@ -39,7 +39,7 @@ function authorizeUser($connection, $email, $password)
         deleteAuthorization($connection, $authorization['id']);
     }
     srand(time());
-    $token = sha1(rand().$email.$salt);
+    $token = sha1(time().$email.rand());
     $authorizationId = addAuthorization($connection, $user['id'], $token);
 
     if ($authorizationId) {

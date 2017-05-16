@@ -1,8 +1,6 @@
 views.admin = function (data, params) {
     var api_stub = 'hotels';
 
-
-    // function (resource, type, params, success_callback, error_callback)
     utils.sendRequest(
         api_stub,
         'GET',
