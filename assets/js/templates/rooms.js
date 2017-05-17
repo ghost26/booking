@@ -3,10 +3,10 @@ templates.rooms = function (data, params) {
       <div class="container">
           <div class="panel panel-default">
               <div id="admin-panel" class="panel-body">
-                <div class="col-md-8 col-xs-12">
+                <div class="col-md-6 col-xs-6">
                   <h5 id="admin-title">Управление отеля <span id="rooms-hotel-name"></span></h5>
                 </div>
-                <div id="admin-head-buttom" class="col-md-4 col-xs-12" >
+                <div id="admin-head-buttom" class="col-md-6 col-xs-6" >
                   <button type="button" class="btn btn-success search_buttom" data-toggle="modal" data-target="#addRoom">Добавить комнату</button>
                 </div>
               </div>

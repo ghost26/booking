@@ -26,7 +26,6 @@ var utils = (function () {
             var temp = route.split('?');
             var route_split = temp.length;
             var function_to_invoke = temp[0] || false;
-
             if (route_split > 1) {
                 var params = extract_params(temp[1]);
             }
@@ -63,6 +62,14 @@ var utils = (function () {
                 el.innerHTML = content;
                 el.scrollIntoView();
             }
+        },
+
+        openLogin: function () {
+            controllers.change_tab('top-signin', 'signin');
+        },
+
+        openRegistration: function () {
+            controllers.change_tab('top-reg', 'signup');
         },
 
         // jquery only for beauty datepicker :)
@@ -208,6 +215,7 @@ var utils = (function () {
                 controllers['home_page_search_validation_failed']();
             } else {
                 controllers['home_page_search_validation_success']();
+                controllers.show_loader('search_result');
                 var params = {
                     'city_id': city_id,
                     'start_date': new Date(start_date + " 12:00").valueOf() / 1000,
@@ -225,7 +233,7 @@ var utils = (function () {
 
         sendRequest: function (resource, type, params, success_callback, error_callback) {
             params = params || '';
-
+            // controllers.show_loader('page-content');
             $.ajax({
                 type: type,
                 url: config.api_server + resource,
@@ -233,6 +241,8 @@ var utils = (function () {
                 dataType: "json",
                 success: function (data) {
 
+                    var el = document.getElementById('mega-fail');
+                    if (el != null) el.remove();
                     if (success_callback) {
                         controllers[success_callback](
                             data.response, params

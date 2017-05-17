@@ -44,6 +44,8 @@ li {
 
 #admin-panel {
     text-align: left;
+    display: flex;
+    align-items: center;
 }
 
 #admin-title {

@@ -16,3 +16,12 @@ templates.hello_text = function (data) {
 
     return content;
 };
+
+templates.loader = function(data){
+    var content = `
+        <div id=loader>
+            <img id=load-image src="assets/images/loader.gif">
+        </div>
+    `;
+    return content;
+};

@@ -1,6 +1,6 @@
 views.admin = function (data, params) {
     var api_stub = 'hotels';
-
+    controllers.show_loader('page-content');
     utils.sendRequest(
         api_stub,
         'GET',
@@ -12,6 +12,7 @@ views.admin = function (data, params) {
 
 views.admin_bookings = function (data, params) {
     var api_stub = 'bookings';
+    controllers.show_loader('page-content');
     utils.sendRequest(
         api_stub,
         'GET',
@@ -23,7 +24,7 @@ views.admin_bookings = function (data, params) {
 
 views.admin_hotel_page = function (data, params) {
     var api_stub = 'rooms';
-
+    controllers.show_loader('page-content');
     utils.sendRequest(
         api_stub,
         'GET',

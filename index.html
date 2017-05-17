@@ -10,73 +10,6 @@
 
     <link rel="shortcut icon" href="favicon.ico">
 
-    <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet"
-          href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/build/css/bootstrap-datetimepicker.css">
-
-    <!-- JS -->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"
-            charset="utf-8"></script>
-    <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/src/js/bootstrap-datetimepicker.js"
-            charset="utf-8"></script>
-
-    <!-- config -->
-    <script src="assets/js/config.js"></script>
-
-    <!-- utils -->
-    <script src="assets/js/utils/utils.js"></script>
-
-    <!-- init -->
-    <script src="assets/js/init.js"></script>
-
-    <!-- templates -->
-    <script src="assets/js/templates/hello.js"></script>
-    <script src="assets/js/templates/admin.js"></script>
-    <script src="assets/js/templates/rooms.js"></script>
-    <script src="assets/js/templates/search.js"></script>
-    <script src="assets/js/templates/cities.js"></script>
-    <script src="assets/js/templates/notfound.js"></script>
-    <script src="assets/js/templates/bookmarks.js"></script>
-    <script src="assets/js/templates/empty_content.js"></script>
-    <script src="assets/js/templates/denied.js"></script>
-    <script src="assets/js/templates/search_result.js"></script>
-    <script src="assets/js/templates/bookings.js"></script>
-    <script src="assets/js/templates/admin_bookings.js"></script>
-    <script src="assets/js/templates/countries.js"></script>
-    <script src="assets/js/templates/offers.js"></script>
-    <script src="assets/js/templates/popup.js"></script>
-
-    <!--controllers-->
-    <script src="assets/js/controllers/home.js"></script>
-    <script src="assets/js/controllers/offers.js"></script>
-    <script src="assets/js/controllers/popup.js"></script>
-    <script src="assets/js/controllers/admin.js"></script>
-    <script src="assets/js/controllers/denied.js"></script>
-    <script src="assets/js/controllers/notfound.js"></script>
-    <script src="assets/js/controllers/bookings.js"></script>
-    <script src="assets/js/controllers/popup.js"></script>
-    <script src="assets/js/controllers/bookmarks.js"></script>
-    <script src="assets/js/controllers/login.js"></script>
-    <script src="assets/js/controllers/navbar.js"></script>
-    <script src="assets/js/controllers/register.js"></script>
-
-    <!-- views -->
-    <script src="assets/js/views/home.js"></script>
-    <script src="assets/js/views/bookings.js"></script>
-    <script src="assets/js/views/admin.js"></script>
-    <script src="assets/js/views/offers.js"></script>
-    <script src="assets/js/views/denied.js"></script>
-    <script src="assets/js/views/bookmarks.js"></script>
-    <script src="assets/js/views/notfound.js"></script>
-
 </head>
 
 <body>
@@ -106,10 +39,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false"><span id="profile-name">Мой профиль</span> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li style="" id="navbar-enter"><a href="#top-signin" id="top-sign-open" data-toggle="modal"
-                                                              data-target="#my-modal">Вход</a></li>
+                            <li style="" id="navbar-enter"><a  id="top-sign-open" data-toggle="modal"
+                                                              data-target="#my-modal" onclick="utils.openLogin()">Вход</a></li>
                             <li style="" id="navbar-reg"><a href="#top-signup" data-toggle="modal"
-                                                            data-target="#my-modal">Регистрация</a></li>
+                                                            data-target="#my-modal" onclick="utils.openRegistration()">Регистрация</a></li>
                             <li style="display: none;" id="navbar-logout"><a href="#" onclick="utils.logout()">Выйти</a>
                             </li>
                         </ul>
@@ -144,7 +77,7 @@
                     <div class="tab-pane fade active in" id="signin">
                         <form class="form-horizontal" onsubmit="utils.login(event)">
                             <fieldset>
-                                <div id="reg-success" class="alert alert-success" role="alert" style="display: none">f
+                                <div id="reg-success" class="alert alert-success" role="alert" style="display: none">
                                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                                     Вы успешно зарегистрированы!
                                 </div>
@@ -169,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="signin"></label>
+                                    <label class="control-label" for="login-signin"></label>
                                     <div class="controls">
                                         <button id="login-signin" name="confirmsignup" class="btn btn-success">Войти
                                         </button>
@@ -258,6 +191,73 @@
         <div id="page-content" class="main-content"></div>
     </div>
 </div>
+
+<!-- Styles -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet"
+      href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/build/css/bootstrap-datetimepicker.css">
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"
+        charset="utf-8"></script>
+<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/src/js/bootstrap-datetimepicker.js"
+        charset="utf-8"></script>
+
+<!-- config -->
+<script src="assets/js/config.js"></script>
+
+<!-- utils -->
+<script src="assets/js/utils/utils.js"></script>
+
+<!-- init -->
+<script src="assets/js/init.js"></script>
+
+<!-- templates -->
+<script src="assets/js/templates/hello.js"></script>
+<script src="assets/js/templates/admin.js"></script>
+<script src="assets/js/templates/rooms.js"></script>
+<script src="assets/js/templates/search.js"></script>
+<script src="assets/js/templates/cities.js"></script>
+<script src="assets/js/templates/notfound.js"></script>
+<script src="assets/js/templates/bookmarks.js"></script>
+<script src="assets/js/templates/empty_content.js"></script>
+<script src="assets/js/templates/denied.js"></script>
+<script src="assets/js/templates/search_result.js"></script>
+<script src="assets/js/templates/bookings.js"></script>
+<script src="assets/js/templates/admin_bookings.js"></script>
+<script src="assets/js/templates/countries.js"></script>
+<script src="assets/js/templates/offers.js"></script>
+<script src="assets/js/templates/popup.js"></script>
+
+<!--controllers-->
+<script src="assets/js/controllers/home.js"></script>
+<script src="assets/js/controllers/offers.js"></script>
+<script src="assets/js/controllers/popup.js"></script>
+<script src="assets/js/controllers/admin.js"></script>
+<script src="assets/js/controllers/denied.js"></script>
+<script src="assets/js/controllers/notfound.js"></script>
+<script src="assets/js/controllers/bookings.js"></script>
+<script src="assets/js/controllers/popup.js"></script>
+<script src="assets/js/controllers/bookmarks.js"></script>
+<script src="assets/js/controllers/login.js"></script>
+<script src="assets/js/controllers/navbar.js"></script>
+<script src="assets/js/controllers/register.js"></script>
+
+<!-- views -->
+<script src="assets/js/views/home.js"></script>
+<script src="assets/js/views/bookings.js"></script>
+<script src="assets/js/views/admin.js"></script>
+<script src="assets/js/views/offers.js"></script>
+<script src="assets/js/views/denied.js"></script>
+<script src="assets/js/views/bookmarks.js"></script>
+<script src="assets/js/views/notfound.js"></script>
 </body>
 
 </html>

@@ -43,3 +43,9 @@ controllers.home_page_error = function (data, params) {
     );
 };
 
+controllers.show_loader = function(element) {
+    utils.render(
+        element,
+        templates.loader()
+    );
+}

@@ -59,3 +59,18 @@ controllers.change_active_nav_item = function (function_to_invoke) {
     var menu_item = document.getElementById('navbar-' + function_to_invoke);
     if (menu_item !== null) menu_item.classList.add('active');
 }
+
+controllers.change_tab = function (top_element_tab, bottom_element_tab) {
+    var elems = document.querySelectorAll('.active.in');
+    var elems_2 = document.querySelectorAll('.active');
+    [].forEach.call(elems, function (el) {
+        el.classList.remove('active', 'in');
+    });
+    [].forEach.call(elems_2, function (el) {
+        el.classList.remove('active');
+    });
+    var el_7 = document.getElementById(top_element_tab);
+    var el_8 = document.getElementById(bottom_element_tab);
+    if (el_7 !== null) el_7.classList.add('active');
+    if (el_8 !== null) el_8.classList.add('active', 'in');
+}
