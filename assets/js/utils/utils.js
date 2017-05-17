@@ -64,7 +64,11 @@ var utils = (function () {
             }
         },
 
-        openLogin: function () {
+        openLogin: function (needOpenModal) {
+            if (needOpenModal) {
+                var el = document.getElementById('top-sign-open');
+                if (el != null) el.click();
+            }
             controllers.change_tab('top-signin', 'signin');
         },
 
@@ -248,11 +252,13 @@ var utils = (function () {
                             data.response, params
                         );
                     }
+
                 },
                 error: function (rq, er, err) {
                     if (rq.status === 401) {
                         utils.logout();
                         window.location.href = "#";
+                        utils.openLogin(true);
                     } else if (error_callback) {
                             controllers[error_callback](
                                 rq, params
